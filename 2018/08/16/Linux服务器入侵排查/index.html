@@ -5,18 +5,19 @@
   
 
   
-  <title>Gwok Fun&#39;s Blog</title>
+  <title>Linux服务器入侵排查 | Gwok Fun&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="想多了">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gwok Fun&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="##一、针对情况  服务器上存在可疑进程，系统资源占用高（挖矿程序等）； 发现服务器对外大量发包（DDOS肉鸡）； 不正常的端口连接（反向shell等）； 服务器日志被恶意删除； …  ##二、注意事项  对文件进行操作先备份文件再操作 不要vim等编辑器打开文件，会修改文件时间戳 拷贝源文件到服务器外需要附上md5校验 根据排查流程简单生成报告，svn提交  ##三、排查思路  文件分析 a)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux服务器入侵排查">
+<meta property="og:url" content="http://yoursite.com/2018/08/16/Linux服务器入侵排查/index.html">
 <meta property="og:site_name" content="Gwok Fun&#39;s Blog">
-<meta property="og:description" content="想多了">
+<meta property="og:description" content="##一、针对情况  服务器上存在可疑进程，系统资源占用高（挖矿程序等）； 发现服务器对外大量发包（DDOS肉鸡）； 不正常的端口连接（反向shell等）； 服务器日志被恶意删除； …  ##二、注意事项  对文件进行操作先备份文件再操作 不要vim等编辑器打开文件，会修改文件时间戳 拷贝源文件到服务器外需要附上md5校验 根据排查流程简单生成报告，svn提交  ##三、排查思路  文件分析 a)">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-16T07:39:57.632Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gwok Fun&#39;s Blog">
-<meta name="twitter:description" content="想多了">
+<meta name="twitter:title" content="Linux服务器入侵排查">
+<meta name="twitter:description" content="##一、针对情况  服务器上存在可疑进程，系统资源占用高（挖矿程序等）； 发现服务器对外大量发包（DDOS肉鸡）； 不正常的端口连接（反向shell等）； 服务器日志被恶意删除； …  ##二、注意事项  对文件进行操作先备份文件再操作 不要vim等编辑器打开文件，会修改文件时间戳 拷贝源文件到服务器外需要附上md5校验 根据排查流程简单生成报告，svn提交  ##三、排查思路  文件分析 a)">
   
     <link rel="alternate" href="/atom.xml" title="Gwok Fun&#39;s Blog" type="application/atom+xml">
   
@@ -67,9 +68,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-Linux服务器入侵排查" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Linux服务器入侵排查" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/16/Linux服务器入侵排查/" class="article-date">
   <time datetime="2018-08-16T07:39:03.000Z" itemprop="datePublished">2018-08-16</time>
@@ -82,8 +81,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/16/Linux服务器入侵排查/">Linux服务器入侵排查</a>
+    <h1 class="article-title" itemprop="name">
+      Linux服务器入侵排查
     </h1>
   
 
@@ -167,93 +166,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-github-hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/27/github-hexo搭建博客/" class="article-date">
-  <time datetime="2018-07-27T07:45:29.000Z" itemprop="datePublished">2018-07-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/27/github-hexo搭建博客/">github+hexo搭建博客</a>
-    </h1>
+    <a href="/2018/07/27/github-hexo搭建博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">github+hexo搭建博客</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在越来越多的人喜欢利用Github搭建静态网站，原因不外乎简单省钱。本人也利用hexo+github搭建了本博客，用于分享一些心得。在此过程中，折腾博客的各种配置以及功能占具了我一部分时间，在此详细记录下我是如何利用hexo+github搭建静态博客以及一些配置相关问题，以免过后遗忘，且当备份之用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/github-hexo搭建博客/" data-id="cjkw9909b0002mgwiimvtwly7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/27/hello-world/" class="article-date">
-  <time datetime="2018-07-27T06:27:05.857Z" itemprop="datePublished">2018-07-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/27/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/hello-world/" data-id="cjkw990920001mgwi00vbwo3o" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
 
 </section>
         

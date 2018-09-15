@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://gwokfun.github.io/"/>
-  <updated>2018-09-15T02:51:46.196Z</updated>
+  <updated>2018-09-15T04:48:18.097Z</updated>
   <id>https://gwokfun.github.io/</id>
   
   <author>
@@ -17,11 +17,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>hexo多终端同步</title>
+    <link href="https://gwokfun.github.io/2018/09/15/hexo%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/"/>
+    <id>https://gwokfun.github.io/2018/09/15/hexo多终端同步/</id>
+    <published>2018-09-15T04:25:13.000Z</published>
+    <updated>2018-09-15T04:48:18.097Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-准备条件"><a href="#1-准备条件" class="headerlink" title="1.准备条件"></a>1.准备条件</h3><ul><li>安装Node.js、git、Hexo</li><li>配置github与hexo</li></ul><h3 id="2-建立分支"><a href="#2-建立分支" class="headerlink" title="2.建立分支"></a>2.建立分支</h3><p>建立branch分支，并push本地文件夹中必要文件</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add 必要文件（见下图）</span><br><span class="line">git commit -m "hexo source"</span><br><span class="line">git branch hexo</span><br><span class="line">git checkout hexo</span><br><span class="line">git remote add origin github&lt;url&gt;</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure><p><img src="/images/hexo_branch.png" alt=""></p><h3 id="3-其他终端使用"><a href="#3-其他终端使用" class="headerlink" title="3.其他终端使用"></a>3.其他终端使用</h3><p>在其他终端更新博客，git clone hexo分支，进行相关配置</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git clone -b hexo github&lt;url&gt; </span><br><span class="line">cd  yourname.github.io</span><br><span class="line">npm install XX //安装相关npm包</span><br><span class="line">hexo new post "new blog title"</span><br><span class="line">git add source </span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></table></figure><h2 id="4-不同终端使用"><a href="#4-不同终端使用" class="headerlink" title="4.不同终端使用"></a>4.不同终端使用</h2><p>在不同的终端已经做完配置， 进入相应的文件夹</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git pull origin hexo  //pull与github合并</span><br><span class="line">hexo new post "new blog title"</span><br><span class="line">git add source</span><br><span class="line">git commit -m "XX"</span><br><span class="line">git push origin hexo</span><br><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-准备条件&quot;&gt;&lt;a href=&quot;#1-准备条件&quot; class=&quot;headerlink&quot; title=&quot;1.准备条件&quot;&gt;&lt;/a&gt;1.准备条件&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;安装Node.js、git、Hexo&lt;/li&gt;
+&lt;li&gt;配置github与hexo&lt;/li&gt;
+&lt;
+      
+    
+    </summary>
+    
+      <category term="Hexo" scheme="https://gwokfun.github.io/categories/Hexo/"/>
+    
+    
+      <category term="Hexo" scheme="https://gwokfun.github.io/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
     <title>hexo更新文章</title>
     <link href="https://gwokfun.github.io/2018/09/15/hexo%E6%9B%B4%E6%96%B0%E6%96%87%E7%AB%A0/"/>
     <id>https://gwokfun.github.io/2018/09/15/hexo更新文章/</id>
     <published>2018-09-15T02:51:21.000Z</published>
-    <updated>2018-09-15T02:51:46.196Z</updated>
+    <updated>2018-09-15T04:26:13.450Z</updated>
     
     <content type="html"><![CDATA[<h2 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h2><p>在MyBlog目录下执行：hexo new “文章标题”，会在source-&gt;_posts文件夹内生成一个.md文件。<br>编辑该文件（遵循Markdown规则）<br>修改起始字段</p><ul><li>title 文章的标题</li><li>date 创建日期 （文件的创建日期 ）</li><li>updated 修改日期 （ 文件的修改日期）</li><li>comments 是否开启评论 true</li><li>tags 标签</li><li>categories 分类</li><li>permalink url中的名字（文件名）</li><li>编写正文内容（MakeDown）</li></ul><h2 id="更新文章"><a href="#更新文章" class="headerlink" title="更新文章"></a>更新文章</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean 删除本地静态文件（Public目录），可不执行。</span><br><span class="line">hexo g 生成本地静态文件（Public目录）</span><br><span class="line">hexo deploy 将本地静态文件推送至github（hexo d）</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -34,6 +62,10 @@
     
     </summary>
     
+      <category term="Hexo" scheme="https://gwokfun.github.io/categories/Hexo/"/>
+    
+    
+      <category term="Hexo" scheme="https://gwokfun.github.io/tags/Hexo/"/>
     
   </entry>
   

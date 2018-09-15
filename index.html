@@ -91,23 +91,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##一、针对情况</p>
-<ul>
+        <h2 id="一、针对情况"><a href="#一、针对情况" class="headerlink" title="一、针对情况"></a>一、针对情况</h2><ul>
 <li>服务器上存在可疑进程，系统资源占用高（挖矿程序等）；</li>
 <li>发现服务器对外大量发包（DDOS肉鸡）；</li>
 <li>不正常的端口连接（反向shell等）；</li>
 <li>服务器日志被恶意删除；</li>
 <li>…</li>
 </ul>
-<p>##二、注意事项</p>
-<ul>
+<h2 id="二、注意事项"><a href="#二、注意事项" class="headerlink" title="二、注意事项"></a>二、注意事项</h2><ul>
 <li>对文件进行操作先备份文件再操作</li>
 <li>不要vim等编辑器打开文件，会修改文件时间戳</li>
 <li>拷贝源文件到服务器外需要附上md5校验</li>
 <li>根据排查流程简单生成报告，svn提交</li>
 </ul>
-<p>##三、排查思路</p>
-<ol>
+<h2 id="三、排查思路"><a href="#三、排查思路" class="headerlink" title="三、排查思路"></a>三、排查思路</h2><ol>
 <li><p>文件分析<br> a) 文件日期、新增文件、可疑/异常文件、最近使用文件、浏览器下载文件<br> ​b) Webshell 排查与分析<br> ​c) 核心应用关联目录文件分析</p>
 </li>
 <li><p>进程分析<br> ​a) 当前活动进程 &amp; 远程连接<br> ​b) 启动进程&amp;计划任务<br> ​c) 进程工具分析<br> ​ i. Windows:Pchunter<br> ​ ii. Linux: Chkrootkit&amp;Rkhunter</p>
@@ -117,16 +114,13 @@
 <li><p>日志分析<br> ​a) 操作系统日志<br> ​ i. Windows: 事件查看器（eventvwr）<br> ​ ii. Linux: /var/log/<br> ​b) 应用日志分析<br> ​ i. Access.log<br> ​ ii. Error.log</p>
 </li>
 </ol>
-<p>##四、分析排查</p>
-<p>###文件分析</p>
-<p>1.敏感目录的文件分析</p>
+<h2 id="四、分析排查"><a href="#四、分析排查" class="headerlink" title="四、分析排查"></a>四、分析排查</h2><h3 id="文件分析"><a href="#文件分析" class="headerlink" title="文件分析"></a>文件分析</h3><p>1.敏感目录的文件分析</p>
 <p>1）临时文件目录<br>如：/tmp/、/var/tmp<br>木马或者异常文件可能隐藏在临时目录<br>2）命令目录<br>如：/usr/bin/、/usr/sbin/等，根据echo $PATH中的命令目录进行确定排查目录<br>常见手段为替换或修改这些目录的命令，隐藏恶意代码等。</p>
 <p>针对可疑文件可以使用stat进行创建修改时间、访问时间的详细查看，若修改时间距离事件日期接近，有线性关联，说明可能被篡改或者其他。</p>
 <p>​例如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#​查看tmp目录下的文件</span><br><span class="line">ls –alt /tmp/</span><br><span class="line">#​查看文件修改、创建、访问时间</span><br><span class="line">stat file</span><br></pre></td></tr></table></figure></p>
 <p>2.特殊权限的文件<br>特殊权限主要为777权限以及s位权限的文件，存在被篡改或替换的风险，也是后门木马程序的特征之一，需要留意。<br>分析方法，通过stat对可疑文件进行检查，修改时间是否为入侵阶段；file判断文件类型。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#查找777的权限的文件 </span><br><span class="line">find / -type f -perm 4777</span><br><span class="line">#查找s位权限的文件 </span><br><span class="line">find / -type f -user root -group root \( -perm -04000 -o -perm -02000 \) -exec ls &#123;&#125; \;</span><br></pre></td></tr></table></figure>
-<p>###进程分析</p>
-<p>1.网络进程<br>使用netstat 网络连接命令，分析可疑端口、可疑IP、可疑PID及程序进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">netstat -antlp | grep ESTABLISHED   查看已经建立的网络连接</span><br><span class="line">netstat -antlp | grep LISTEN    检查可以监听端口</span><br><span class="line">ip link | grep PROMISC　　正常网卡不应该存在promisc，如果存在可能有sniffer</span><br><span class="line">lsof -i 列出所有的网络连接</span><br><span class="line">arp -a　　查看arp记录是否正常</span><br><span class="line">ifconfig -a　　查看网卡设置</span><br></pre></td></tr></table></figure></p>
+<h3 id="进程分析"><a href="#进程分析" class="headerlink" title="进程分析"></a>进程分析</h3><p>1.网络进程<br>使用netstat 网络连接命令，分析可疑端口、可疑IP、可疑PID及程序进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">netstat -antlp | grep ESTABLISHED   查看已经建立的网络连接</span><br><span class="line">netstat -antlp | grep LISTEN    检查可以监听端口</span><br><span class="line">ip link | grep PROMISC　　正常网卡不应该存在promisc，如果存在可能有sniffer</span><br><span class="line">lsof -i 列出所有的网络连接</span><br><span class="line">arp -a　　查看arp记录是否正常</span><br><span class="line">ifconfig -a　　查看网卡设置</span><br></pre></td></tr></table></figure></p>
 <p>2.获取进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ps -aux　　查看进程</span><br><span class="line">top        查看进程</span><br><span class="line">lsof -p pid　　查看进程所打开的端口及文件</span><br><span class="line">lsof -c 进程名　　查看关联文件</span><br><span class="line">file  查看文件类型</span><br><span class="line">strings 查看二进制文件内容可读字符</span><br><span class="line">ps -aux | grep -v &quot;\[&quot;   查看非系统进程</span><br></pre></td></tr></table></figure></p>
 <p>3.隐藏进程<br>简单对比ps -ef 与/proc的进程，后续使用rootkit进行检查较为可靠。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | awk &apos;&#123;print $2&#125;&apos; | sort -n | uniq &gt;1</span><br><span class="line">ls /proc | sort -n |uniq &gt;2</span><br><span class="line">diff 1 2</span><br></pre></td></tr></table></figure>
@@ -137,8 +131,7 @@
 <p>1）检查web根目录<br>i.查看nginx或apache2的配置文件，获取root目录<br>ii.检查该目录下文件，以及浏览器访问情况<br>iii.分析可疑文件（关注jsp、php、asp、aspx等文件），是否存在webshell等后门<br>2)webshell查杀工具<br>使用河马shell<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/</span><br><span class="line">wget -O hm-linux.tgz http://down.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.4.2</span><br><span class="line">tar xvf hm-linux.tgz</span><br><span class="line">./hm scan 你的web目录</span><br><span class="line">扫描完成之后结果会保存为result.csv文件，使用记事本或者excel打开查看</span><br><span class="line">``` </span><br><span class="line"> </span><br><span class="line">2）与测试环境目录做对比</span><br><span class="line">```  </span><br><span class="line">diff -r &#123;生产dir&#125; &#123;测试dir&#125;</span><br></pre></td></tr></table></figure></p>
 <p>3）通过Access Log获取一些信息。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#伴随一些其他攻击特征</span><br><span class="line">egrep &apos;(select|script|acunetix|sqlmap)&apos; /var/log/httpd/access_log</span><br><span class="line">#页面访问排名前十的IP</span><br><span class="line">cat access.log | cut -f1 -d &quot; &quot; | sort | uniq -c | sort -k 1 -r | head -10</span><br><span class="line">#页面访问排名前十的URL</span><br><span class="line">cat access.log | cut -f4 -d &quot; &quot; | sort | uniq -c | sort -k 1 -r | head -10</span><br><span class="line">#查看最耗时的页面</span><br><span class="line">cat access.log | sort -k 2 -n -r | head 10</span><br><span class="line">#访问频次</span><br><span class="line">awk &apos;&#123;print $1&#125;&apos; /var/log/nginx/access.log |sort -n |uniq -c |sort </span><br><span class="line">awk &apos;&#123;print $1&#125;&apos; /var/log/apache2/access.log |sort -n |uniq -c |sort</span><br></pre></td></tr></table></figure>
-<p>###系统信息</p>
-<p>1.查看分析history，注意history是否篡改或删除<br>a) wget 远程某主机（域名&amp;IP）的远控文件；<br>b) 尝试连接内网某主机（ssh scp），便于分析攻击者意图;<br>c) 打包某敏感数据或代码，tar zip 类命令<br>d) 对系统进行配置，包括命令修改、远控木马类，可找到攻击者关联信息…</p>
+<h3 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h3><p>1.查看分析history，注意history是否篡改或删除<br>a) wget 远程某主机（域名&amp;IP）的远控文件；<br>b) 尝试连接内网某主机（ssh scp），便于分析攻击者意图;<br>c) 打包某敏感数据或代码，tar zip 类命令<br>d) 对系统进行配置，包括命令修改、远控木马类，可找到攻击者关联信息…</p>
 <p>2.查看分析用户相关分析<br>​a) useradd userdel 的命令时间变化（stat），以及是否包含可疑信息<br>b) cat /etc/passwd 分析可疑帐号，可登录帐号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">awk -F: &apos;&#123;if($3==0)print $1&#125;&apos; /etc/passwd  查看UID为0的帐号</span><br><span class="line">cat /etc/passwd | grep -E &quot;/bin/bash$&quot; 查看能够登录的帐号</span><br><span class="line">ls -l /etc/passwd　　查看passwd最后修改时间</span><br><span class="line">awk -F: &apos;length($2)==0 &#123;print $1&#125;&apos; /etc/shadow　　查看是否存在空口令用户</span><br></pre></td></tr></table></figure></p>
 <p>3.查看分析任务计划</p>
 <p>a) 通过crontabl –l 查看当前的任务计划有哪些，是否有后门木马程序启动相关信息；<br>b) 查看etc目录任务计划相关文件，ls /etc/cron*</p>
@@ -154,96 +147,13 @@
 <p>a) 比对ssh的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -V</span><br></pre></td></tr></table></figure></p>
 <p>b) 查看ssh配置文件和/usr/sbin/sshd的时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stat /usr/sbin/sshd</span><br></pre></td></tr></table></figure></p>
 <p>c) 查看ssh相关目录有无可疑的公钥存在。<br>ls -l /root/.ssh/ /etc/ssh/</p>
-<p>###日志分析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">日志文件</span><br><span class="line">/var/log/message       包括整体系统信息</span><br><span class="line">/var/log/auth.log        包含系统授权信息，包括用户登录和使用的权限机制等</span><br><span class="line">/var/log/userlog         记录所有等级用户信息的日志。</span><br><span class="line">/var/log/cron           记录crontab命令是否被正确的执行</span><br><span class="line">/var/log/xferlog(vsftpd.log)记录Linux FTP日志</span><br><span class="line">/var/log/lastlog         记录登录的用户，可以使用命令lastlog查看</span><br><span class="line">/var/log/secure         记录大多数应用输入的账号与密码，登录成功与否</span><br><span class="line">var/log/wtmp　　      记录登录系统成功的账户信息，等同于命令last</span><br><span class="line">var/log/faillog　　      记录登录系统不成功的账号信息，一般会被黑客删除</span><br></pre></td></tr></table></figure>
+<h3 id="日志分析"><a href="#日志分析" class="headerlink" title="日志分析"></a>日志分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">日志文件</span><br><span class="line">/var/log/message       包括整体系统信息</span><br><span class="line">/var/log/auth.log        包含系统授权信息，包括用户登录和使用的权限机制等</span><br><span class="line">/var/log/userlog         记录所有等级用户信息的日志。</span><br><span class="line">/var/log/cron           记录crontab命令是否被正确的执行</span><br><span class="line">/var/log/xferlog(vsftpd.log)记录Linux FTP日志</span><br><span class="line">/var/log/lastlog         记录登录的用户，可以使用命令lastlog查看</span><br><span class="line">/var/log/secure         记录大多数应用输入的账号与密码，登录成功与否</span><br><span class="line">var/log/wtmp　　      记录登录系统成功的账户信息，等同于命令last</span><br><span class="line">var/log/faillog　　      记录登录系统不成功的账号信息，一般会被黑客删除</span><br></pre></td></tr></table></figure>
 <p>登录日志可以关注Accepted、Failed password 、invalid特殊关键字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">定位有多少IP在爆破主机的root帐号</span><br><span class="line">grep &quot;Failed password for root&quot; /var/log/auth.log | awk &apos;&#123;print $11&#125;&apos; | sort | uniq -c | sort -nr | more</span><br><span class="line">登录成功的IP有哪些</span><br><span class="line">grep &quot;Accepted &quot; /var/log/auth.log | awk &apos;&#123;print $11&#125;&apos; | sort | uniq -c | sort -nr | more  </span><br><span class="line">tail -400f demo.log #监控最后400行日志文件的变化 等价与 tail -n 400 -f （-f参数是实时）  </span><br><span class="line">less demo.log #查看日志文件，支持上下滚屏，查找功能  </span><br><span class="line">uniq -c demo.log  #标记该行重复的数量，不重复值为1 </span><br><span class="line">grep -c &apos;ERROR&apos; demo.log   #输出文件demo.log中查找所有包行ERROR的行的数量</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/08/16/Linux服务器入侵排查/" data-id="cjkw9cwar000038wid5gqx7lj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-github-hexo搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/27/github-hexo搭建博客/" class="article-date">
-  <time datetime="2018-07-27T07:45:29.000Z" itemprop="datePublished">2018-07-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/27/github-hexo搭建博客/">github+hexo搭建博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>现在越来越多的人喜欢利用Github搭建静态网站，原因不外乎简单省钱。本人也利用hexo+github搭建了本博客，用于分享一些心得。在此过程中，折腾博客的各种配置以及功能占具了我一部分时间，在此详细记录下我是如何利用hexo+github搭建静态博客以及一些配置相关问题，以免过后遗忘，且当备份之用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/github-hexo搭建博客/" data-id="cjkw9cway000238wioe31ux3y" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/27/hello-world/" class="article-date">
-  <time datetime="2018-07-27T06:27:05.857Z" itemprop="datePublished">2018-07-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/27/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/27/hello-world/" data-id="cjkw9cwaw000138wizq4glttg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/08/16/Linux服务器入侵排查/" data-id="cjm2u1rwm0000r0wik1jqh969" class="article-share-link">Share</a>
       
       
     </footer>
@@ -271,7 +181,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li></ul>
     </div>
   </div>
 
@@ -285,14 +195,6 @@
         
           <li>
             <a href="/2018/08/16/Linux服务器入侵排查/">Linux服务器入侵排查</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/27/github-hexo搭建博客/">github+hexo搭建博客</a>
-          </li>
-        
-          <li>
-            <a href="/2018/07/27/hello-world/">Hello World</a>
           </li>
         
       </ul>
